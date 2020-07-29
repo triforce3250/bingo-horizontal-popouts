@@ -5,10 +5,8 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="./style.css">
   <link rel="stylesheet" type="text/css" href="./lib/item-tracker/item-tracker.css">
-  <title>Bingo horizontal popouts</title>
-  <style>
-    }
-  </style>
+  <link rel="shortcut icon" type="image/x-icon" href="./img/favicon.png">
+  <title>OoT Bingo popouts</title>
 </head>
 
 <body>
@@ -17,30 +15,28 @@
 
   <div class='row-input'>
     <label for="row1">Popout url of first row:</label>
-    <input type='url' id="row1-input" placeholder='https://ootbingo.github.io/bingo/bingo-popout.html#COL5%3D...'
-      value='https://ootbingo.github.io/bingo/bingo-popout.html#COL5%3DAll%204%20Skulltulas%20in%20Deku%20Tree%3B%3B%3BDefeat%20Twinrova%3B%3B%3BGoron%20Tunic%3B%3B%3BShadow%20Temple%20Boss%20Key%3B%3B%3B6%20Compasses'>
+    <input type='url' id="row1-input" placeholder='https://ootbingo.github.io/bingo/bingo-popout.html#COL5%3D...'>
   </div>
 
   <div class='row-input'>
     <label for="row2">Popout url of second row:</label>
-    <input type='url' id="row2-input" placeholder='https://ootbingo.github.io/bingo/bingo-popout.html#COL5%3D...' value="https://ootbingo.github.io/bingo/bingo-popout.html#COL4%3D7%20Maps%3B%3B%3BCow%20in%20House%3B%3B%3B5%20Magic%20Beans%3B%3B%3BFarore's%20Wind%3B%3B%3BDefeat%20Twinrova">
+    <input type='url' id="row2-input" placeholder='https://ootbingo.github.io/bingo/bingo-popout.html#COL5%3D...'>
+  </div>
+
+  <div class='checkbox'>
+    <input type='checkbox' id='mirror' value='mirror' checked/>
+    <label for="mirror">Mirror row name on 2nd row</label>
   </div>
 
   <div id='buttons'>
-    <div id='get-rows-button' class="button">Get rows</div>
+    <div id='get-rows-button' class="button">Display rows</div>
     <a id='tracker-button' class="button" href="./lib/item-tracker/settings-page.html">Tracker settings</a>
-
   </div>
-
 
   <div id=rows>
     <table id='row1'></table>
     <table id='row2'></table>
   </div>
-
-
-
-  </input>
 
   <script src="lib/layout-settings/default-layout-settings.js" type="text/javascript"></script>
   <script defer src="./lib/item-tracker/tracker-loader.js"></script>
@@ -60,15 +56,14 @@
           const table = document.querySelector(`#row${i}`);
 
           const tableHTML = items.map(item => `<td>${item}</td>`).join('');
-          if (i == 1) {
-            table.innerHTML = `<th><div class='left'>${row_id}</div></th>${tableHTML}`;
-          } else {
+          table.innerHTML = `<th><div class='left'>${row_id}</div></th>${tableHTML}`;
+          table.innerHTML = `<th><div class='left'>${row_id}</div></th>${tableHTML}`;
+          if (document.querySelector('#mirror').checked && i == 2) {
             table.innerHTML = `${tableHTML}<th><div class='right'>${row_id}</div></th>`;
           }
-          
         }
         catch (err) {
-          console.log(`Error in Popout url of row ${i}`)
+          console.log(`Error/empty in Popout url of row ${i}`)
           const table = document.querySelector(`#row${i}`);
           table.innerHTML = '';
         }
@@ -80,7 +75,7 @@
       catch (err) {
         console.log('Tracker disabled.')
       }
-      
+
       document.querySelectorAll('td').forEach(el => el.addEventListener('click', () => {
         if (el.classList.contains('greensquare')) {
           el.classList.add('redsquare');
@@ -96,8 +91,6 @@
   </script>
 
 </body>
-
-
 
 </html>
 <!-- Long test row:
