@@ -1,0 +1,50 @@
+.tokens label {
+  cursor: pointer;
+  height: 26px;
+}
+
+.tokens {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tokens > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tokens input {
+  opacity: 0;
+  position: absolute;
+  width: 26px;
+  height: 26px;
+}
+
+.tokens img {
+  filter: grayscale(1);
+  height: 26px;
+  opacity: 0.6;
+}
+
+.tokens input:checked ~ img {
+  filter: initial;
+  opacity: 1;
+}
+
+
+.counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter button {
+  background: initial;
+  border: initial;
+  outline: initial;
+  cursor: pointer;
+  padding: initial;
+}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="./style.css">
+  <link rel="stylesheet" type="text/css" href="./lib/item-tracker/item-tracker.css">
+  <title>Bingo horizontal popouts</title>
+  <style>
+    }
+  </style>
+</head>
+
+<body>
+  <h1>OoT Bingo - Horizontal row popouts</h1>
+  <p>Useful for restreams.</p>
+
+  <div class='row-input'>
+    <label for="row1">Popout url of first row:</label>
+    <input type='url' id="row1-input" placeholder='https://ootbingo.github.io/bingo/bingo-popout.html#COL5%3D...'
+      value='https://ootbingo.github.io/bingo/bingo-popout.html#COL5%3DAll%204%20Skulltulas%20in%20Deku%20Tree%3B%3B%3BDefeat%20Twinrova%3B%3B%3BGoron%20Tunic%3B%3B%3BShadow%20Temple%20Boss%20Key%3B%3B%3B6%20Compasses'>
+  </div>
+
+  <div class='row-input'>
+    <label for="row2">Popout url of second row:</label>
+    <input type='url' id="row2-input" placeholder='https://ootbingo.github.io/bingo/bingo-popout.html#COL5%3D...' value="https://ootbingo.github.io/bingo/bingo-popout.html#COL4%3D7%20Maps%3B%3B%3BCow%20in%20House%3B%3B%3B5%20Magic%20Beans%3B%3B%3BFarore's%20Wind%3B%3B%3BDefeat%20Twinrova">
+  </div>
+
+  <div id='buttons'>
+    <div id='get-rows-button' class="button">Get rows</div>
+    <a id='tracker-button' class="button" href="./lib/item-tracker/settings-page.html">Tracker settings</a>
+
+  </div>
+
+
+  <div id=rows>
+    <table id='row1'></table>
+    <table id='row2'></table>
+  </div>
+
+
+
+  </input>
+
+  <script src="lib/layout-settings/default-layout-settings.js" type="text/javascript"></script>
+  <script defer src="./lib/item-tracker/tracker-loader.js"></script>
+  <script type="text/javascript">
+
+    document.querySelector('#get-rows-button').addEventListener('click', () => {
+      const maybeSettings = localStorage.getItem('layout-settings');
+      const settings = maybeSettings ? JSON.parse(maybeSettings) : defaultLayoutSettings
+
+
+      for (let i = 1; i <= 2; i++) {
+        try {
+          const input = decodeURIComponent(document.querySelector(`#row${i}-input`).value).split('#')[1]
+          const data = input.split('=')
+          const row_id = data[0];
+          const items = data[1].split(';;;');
+          const table = document.querySelector(`#row${i}`);
+
+          const tableHTML = items.map(item => `<td>${item}</td>`).join('');
+          if (i == 1) {
+            table.innerHTML = `<th><div class='left'>${row_id}</div></th>${tableHTML}`;
+          } else {
+            table.innerHTML = `${tableHTML}<th><div class='right'>${row_id}</div></th>`;
+          }
+          
+        }
+        catch (err) {
+          console.log(`Error in Popout url of row ${i}`)
+          const table = document.querySelector(`#row${i}`);
+          table.innerHTML = '';
+        }
+      }
+
+      try {
+        addTrackerComponents()
+      }
+      catch (err) {
+        console.log('Tracker disabled.')
+      }
+      
+      document.querySelectorAll('td').forEach(el => el.addEventListener('click', () => {
+        if (el.classList.contains('greensquare')) {
+          el.classList.add('redsquare');
+          el.classList.remove('greensquare');
+        } else if (el.classList.contains('redsquare')) {
+          el.classList.remove('redsquare');
+        } else {
+          el.classList.add('greensquare');
+        }
+      }));
+
+    })
+  </script>
+
+</body>
+
+
+
+</html>
+<!-- Long test row:
+https://ootbingo.github.io/bingo/bingo-popout.html#COL1%3DDefeat%20Amy%20(Green%20Poe)%3B%3B%3B3%20Swords%2C%20Tunics%2C%20Boots%2C%20and%20Shields%3B%3B%3B2%20Lon-Lon%20Ranch%20Area%20Skulltulas%3B%3B%3B9%20Songs%3B%3B%3B6%20Compasses-->
