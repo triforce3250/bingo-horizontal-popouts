@@ -107,7 +107,8 @@ h1 {
   }
 
 #rows {
-    display: block;
+    display: flex;
+    flex-direction: column;
     height: 300px;
     margin: 50px 10px;
 }
