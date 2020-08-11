@@ -106,11 +106,27 @@ h1 {
     margin-right: 0;
   }
 
-#rows {
+.rows {
     display: flex;
     flex-direction: column;
     height: 300px;
     margin: 50px 10px;
+}
+
+#popout-rows {
+  margin: 0;
+}
+
+#popout-row1 {
+  position: fixed;
+  left: 20px;
+  top: 20px;
+}
+
+#popout-row2 {
+  position: fixed;
+  left: 20px;
+  top: 160px;
 }
 
 /* default font-size 16px*/

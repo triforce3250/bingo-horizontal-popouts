@@ -24,41 +24,47 @@
   </div>
 
   <div class='checkbox'>
-    <input type='checkbox' id='mirror' value='mirror' checked/>
+    <input type='checkbox' id='mirror' value='mirror' checked />
     <label for="mirror">Mirror row name on 2nd row</label>
   </div>
 
   <div id='buttons'>
     <div id='get-rows-button' class="button">Display rows</div>
+    <div id='popout-rows-button' class="button">Popout rows</div>
     <a id='tracker-button' class="button" href="./lib/item-tracker/settings-page.html">Tracker settings</a>
   </div>
 
-  <div id=rows>
-    <table id='row1'></table>
-    <table id='row2'></table>
+  <div id='rows' class='rows'>
+    <table id='row1' class='row'></table>
+    <table id='row2' class='row'></table>
   </div>
 
   <script src="lib/layout-settings/default-layout-settings.js" type="text/javascript"></script>
   <script defer src="./lib/item-tracker/tracker-loader.js"></script>
   <script type="text/javascript">
 
+    function parse_row_string(row_str) {
+      const data = row_str.split('=')
+      const row_id = data[0];
+      const items = data[1].split(';;;');
+      return [row_id, items]
+    }
+
+    const maybeSettings = localStorage.getItem('layout-settings');
+    const settings = maybeSettings ? JSON.parse(maybeSettings) : defaultLayoutSettings
+
     document.querySelector('#get-rows-button').addEventListener('click', () => {
-      const maybeSettings = localStorage.getItem('layout-settings');
-      const settings = maybeSettings ? JSON.parse(maybeSettings) : defaultLayoutSettings
-
-
       for (let i = 1; i <= 2; i++) {
         try {
           const input = decodeURIComponent(document.querySelector(`#row${i}-input`).value).split('#')[1]
-          const data = input.split('=')
-          const row_id = data[0];
-          const items = data[1].split(';;;');
+          const [row_id, items] = parse_row_string(input)
           const table = document.querySelector(`#row${i}`);
 
           const tableHTML = items.map(item => `<td>${item}</td>`).join('');
           table.innerHTML = `<th><div class='left'>${row_id}</div></th>${tableHTML}`;
           table.innerHTML = `<th><div class='left'>${row_id}</div></th>${tableHTML}`;
           if (document.querySelector('#mirror').checked && i == 2) {
+            table.innerHTML = `${tableHTML}<th><div class='right'>${row_id}</div></th>`;
             table.innerHTML = `${tableHTML}<th><div class='right'>${row_id}</div></th>`;
           }
         }
@@ -88,6 +94,29 @@
       }));
 
     })
+
+    document.querySelector('#popout-rows-button').addEventListener('click', () => {
+      row_strs = []
+      for (let i = 1; i <= 2; i++) {
+        try {
+          const row_str = decodeURIComponent(document.querySelector(`#row${i}-input`).value).split('#')[1]
+          if (row_str != undefined) {
+            row_strs.push(`${i}:` + row_str)
+          }
+        }
+        catch (err) {
+          console.log(`Error/empty in Popout url of row ${i}`)
+        }
+      }
+      if (row_strs.length > 0) {
+        let popout_url = './rows.html'
+        if (document.querySelector('#mirror').checked) {
+          popout_url += `?mirror=true`;
+        }
+        popout_url += '#' + row_strs.join('+')
+        window.open(popout_url, '_blank', `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=${settings.popoutWidth}, height=${settings.popoutHeight}`);
+      }
+    });
   </script>
 
 </body>
