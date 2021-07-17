@@ -183,21 +183,14 @@ table {
   }
 
   td:hover {
-    background: #001122;
     cursor: pointer;
   }
 
   .greensquare {
     background: #005511;
   }
-  .greensquare:hover {
-    background: #007722;
-  }
   .redsquare {
     background: #550011;
-  }
-  .redsquare:hover {
-    background: #770022;
   }
 
   table.modern th {
