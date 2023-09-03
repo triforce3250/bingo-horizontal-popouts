@@ -43,6 +43,26 @@
     }
   }
 
+  const setIconSize = (iconSizeSetting) => {
+    const iconSize = iconSizeSetting + 'px';
+
+    trackerTokens = document.getElementsByClassName('token-icon');
+    tokenBoxes = document.getElementsByClassName('token-label');
+    trackerCounters = document.getElementsByClassName('counter-icon');
+
+    window.addEventListener("load", function (event) {
+      for (let i = 0; i < trackerTokens.length; i++) {
+        trackerTokens.item(i).style.height = iconSize;
+      }
+      for (let i = 0; i < tokenBoxes.length; i++) {
+        tokenBoxes.item(i).style.height = iconSize;
+      }
+      for (let i = 0; i < trackerCounters.length; i++) {
+        trackerCounters.item(i).style.height = iconSize;
+      }
+    });
+  }
+
   document.querySelectorAll('td').forEach(el => el.addEventListener('click', () => {
     if (el.classList.contains('greensquare')) {
       el.classList.add('redsquare');
@@ -53,6 +73,8 @@
       el.classList.add('greensquare');
     }
   }));
+
+  setIconSize(22)
 </script>
 </body>
 
