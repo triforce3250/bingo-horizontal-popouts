@@ -1,4 +1,3 @@
-console.log('TEST')
 const maybeSettings = localStorage.getItem('layout-settings');
 const settings = maybeSettings ? JSON.parse(maybeSettings) : defaultLayoutSettings;
 
@@ -91,13 +90,10 @@ if (!searchParams.get("seed") || !searchParams.get("mode")) {
 const bingoFunc = ootBingoGenerator;
 
 
-
-
-
 const goal_count = {}
 console.log('Starting!')
 for (let s = 10000; s <= 20000; s++) {
-  
+
   bingoOpts['seed'] = s
   let bingoBoard = bingoFunc(bingoList, bingoOpts);
 
@@ -105,8 +101,7 @@ for (let s = 10000; s <= 20000; s++) {
     const goal_name = bingoBoard[i].name
     if (!goal_count.hasOwnProperty(goal_name)) {
       goal_count[goal_name] = 1
-    }
-    else {
+    } else {
       goal_count[goal_name] += 1
     }
   }

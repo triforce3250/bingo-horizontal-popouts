@@ -10,54 +10,50 @@
 </head>
 
 <body>
-  <table id='popout-row1' class='popout-row'></table>
-  <table id='popout-row2' class='popout-row'></table>
-  <script src="lib/layout-settings/default-layout-settings.js" type="text/javascript"></script>
-  <script defer src="./lib/item-tracker/tracker-loader.js"></script>
-  <script type="text/javascript">
+<table id='popout-row1' class='popout-row'></table>
+<table id='popout-row2' class='popout-row'></table>
+<script src="lib/layout-settings/default-layout-settings.js" type="text/javascript"></script>
+<script defer src="./lib/item-tracker/tracker-loader.js"></script>
+<script type="text/javascript">
 
-    const input = decodeURIComponent(document.location.hash).substring(1)
+  const input = decodeURIComponent(document.location.hash).substring(1)
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const mirror = urlParams.get('mirror');
+  const urlParams = new URLSearchParams(window.location.search);
+  const mirror = urlParams.get('mirror');
 
-    const rows_data = input.includes('+') ? input.split('+') : [input]
+  const rows_data = input.includes('+') ? input.split('+') : [input]
 
-    for (let i = 0; i < rows_data.length; i++) {
-      try {
-        const row_data = rows_data[i]
-        const data = row_data.split('=')
-        const [row_num, row_id] = data[0].split(':');
-        const items = data[1].split(';;;');
+  for (let i = 0; i < rows_data.length; i++) {
+    try {
+      const row_data = rows_data[i]
+      const data = row_data.split('=')
+      const [row_num, row_id] = data[0].split(':');
+      const items = data[1].split(';;;');
 
-        const table = document.querySelector(`#popout-row${row_num}`);
+      const table = document.querySelector(`#popout-row${row_num}`);
 
-        const tableHTML = items.map(item => `<td>${item}</td>`).join('');
-        table.innerHTML = `<th><div class='left'>${row_id}</div></th>${tableHTML}`;
-        table.innerHTML = `<th><div class='left'>${row_id}</div></th>${tableHTML}`;
-        if (mirror && row_num == '2') {
-          table.innerHTML = `${tableHTML}<th><div class='right'>${row_id}</div></th>`;
-        }
+      const tableHTML = items.map(item => `<td>${item}</td>`).join('');
+      table.innerHTML = `<th><div class='left'>${row_id}</div></th>${tableHTML}`;
+      table.innerHTML = `<th><div class='left'>${row_id}</div></th>${tableHTML}`;
+      if (mirror && row_num == '2') {
+        table.innerHTML = `${tableHTML}<th><div class='right'>${row_id}</div></th>`;
       }
-      catch (err) {
-        consoel.log(`Error/empty in Popout url of row`)
-      }
-
+    } catch (err) {
+      console.log(`Error/empty in Popout url of row`)
     }
+  }
 
-
-
-    document.querySelectorAll('td').forEach(el => el.addEventListener('click', () => {
-      if (el.classList.contains('greensquare')) {
-        el.classList.add('redsquare');
-        el.classList.remove('greensquare');
-      } else if (el.classList.contains('redsquare')) {
-        el.classList.remove('redsquare');
-      } else {
-        el.classList.add('greensquare');
-      }
-    }));
-  </script>
+  document.querySelectorAll('td').forEach(el => el.addEventListener('click', () => {
+    if (el.classList.contains('greensquare')) {
+      el.classList.add('redsquare');
+      el.classList.remove('greensquare');
+    } else if (el.classList.contains('redsquare')) {
+      el.classList.remove('redsquare');
+    } else {
+      el.classList.add('greensquare');
+    }
+  }));
+</script>
 </body>
 
 </html>

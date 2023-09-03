@@ -7,115 +7,116 @@
   <link rel="shortcut icon" type="image/x-icon" href="../../img/favicon.png">
   <title>OoT Bingo (horizontal popouts) - Tracker Settings</title>
   <style>
-    h1 {
-      color: #e09456;
-      font-weight: bold;
-      font-size: 22px;
-    }
+      h1 {
+          color: #e09456;
+          font-weight: bold;
+          font-size: 22px;
+      }
 
-    h2 {
-      color: #e09456;
-      font-weight: bold;
-      font-size: 16px;
-    }
+      h2 {
+          color: #e09456;
+          font-weight: bold;
+          font-size: 16px;
+      }
 
-    html {
-      font-family: Roboto;
-      margin: 0;
-      background: #111111;
-      color: #bec7d2;
-      padding: 16px;
-    }
+      html {
+          font-family: Roboto;
+          margin: 0;
+          background: #111111;
+          color: #bec7d2;
+          padding: 16px;
+      }
 
-    .tracker-enabled {
-      display: flex;
-    }
+      .tracker-enabled {
+          display: flex;
+      }
 
-    .tracker-enabled input {
-      opacity: 0;
-      height: 0;
-      width: 0;
-      position: absolute;
-    }
+      .tracker-enabled input {
+          opacity: 0;
+          height: 0;
+          width: 0;
+          position: absolute;
+      }
 
-    .tracker-enabled .check {
-      height: 20px;
-      width: 20px;
-      border-radius: 4px;
-      background: #222222;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: 100ms ease-in-out;
-      cursor: pointer;
-      margin-left: 8px;
-    }
+      .tracker-enabled .check {
+          height: 20px;
+          width: 20px;
+          border-radius: 4px;
+          background: #222222;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: 100ms ease-in-out;
+          cursor: pointer;
+          margin-left: 8px;
+      }
 
-    .tracker-enabled input[type="checkbox"]:checked~.check {
-      background: #ad920a;
-    }
+      .tracker-enabled input[type="checkbox"]:checked ~ .check {
+          background: #ad920a;
+      }
 
-    .tracker-enabled input[type="checkbox"]:checked~.check::after {
-      color: rgba(0, 0, 0, 0.8);
-      content: "✔";
-    }
+      .tracker-enabled input[type="checkbox"]:checked ~ .check::after {
+          color: rgba(0, 0, 0, 0.8);
+          content: "✔";
+      }
 
-    .goal {
-      margin-top: 8px;
-    }
+      .goal {
+          margin-top: 8px;
+      }
 
-    .goal input {
-      opacity: 0;
-      position: absolute;
-      height: 0;
-      width: 0;
-    }
+      .goal input {
+          opacity: 0;
+          position: absolute;
+          height: 0;
+          width: 0;
+      }
 
-    .goal .mode {
-      display: flex;
-    }
+      .goal .mode {
+          display: flex;
+      }
 
-    .goal label>div {
-      width: 100px;
-      padding: 4px 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 4px;
-      cursor: pointer;
-      background: #222222;
-      transition: 200ms ease-in-out;
-    }
+      .goal label > div {
+          width: 100px;
+          padding: 4px 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 4px;
+          cursor: pointer;
+          background: #222222;
+          transition: 200ms ease-in-out;
+      }
 
-    .goal label>div:not(:first-child) {
-      margin-left: 4px;
-    }
+      .goal label > div:not(:first-child) {
+          margin-left: 4px;
+      }
 
-    .goal input:checked~div {
-      color: rgba(0, 0, 0, 0.8);
-      background: #ad920a;
-    }
+      .goal input:checked ~ div {
+          color: rgba(0, 0, 0, 0.8);
+          background: #ad920a;
+      }
   </style>
 </head>
 
 <body>
-  <a class="button" href="../../index.html">Go back</a>
-  <h1>Tracker Settings</h1>
-  <p>These settings are only for the horizontal popouts and won't interfere with settings for normal Bingo board popouts.</p>
-  <label class="tracker-enabled">Tracker enabled<input id="tracker-enabled" type="checkbox">
-    <div class="check"></div>
-  </label>
-  <label class="tracker-enabled">Show total amount needed in counters<input id="total-amount" type="checkbox">
-    <div class="check"></div>
-  </label>
-  <h2>Individual goal settings</h2>
-  <div id="settings"></div>
+<a class="button" href="../../index.html">Go back</a>
+<h1>Tracker Settings</h1>
+<p>These settings are only for the horizontal popouts and won't interfere with settings for normal Bingo board
+  popouts.</p>
+<label class="tracker-enabled">Tracker enabled<input id="tracker-enabled" type="checkbox">
+  <div class="check"></div>
+</label>
+<label class="tracker-enabled">Show total amount needed in counters<input id="total-amount" type="checkbox">
+  <div class="check"></div>
+</label>
+<h2>Individual goal settings</h2>
+<div id="settings"></div>
 </body>
 <script src="../../goal-list/goal-list.js"></script>
 <script src="./tracker-data.js"></script>
 <script src="./tracker-default.js"></script>
 <script>
-  const renderRadio = ({ name, value, checked }) => `
+  const renderRadio = ({name, value, checked}) => `
       <label>
         <input type="radio" name="${name}" value="${value}" ${checked ? 'checked' : ''}>
         <div>${value}</div>
@@ -150,7 +151,7 @@
   const settingsDiv = document.getElementById('settings');
 
   goals.forEach(goal => {
-    const goalTrackerData = window.trackerData.find(({ regex }) => goal.name.match(regex));
+    const goalTrackerData = window.trackerData.find(({regex}) => goal.name.match(regex));
     if (!goalTrackerData) {
       return;
     }
@@ -160,7 +161,11 @@
     optionsDiv.innerHTML = `
       <div class="goal-name">${goal.name}</div>
       <div class="mode">
-        ${['none', ...Object.keys(goalTrackerData.options)].map(mode => renderRadio({ name: goal.name, value: mode, checked: (storageData.settings[goal.name] || window.trackerDefaults[goal.name]) === mode })).join('')}
+        ${['none', ...Object.keys(goalTrackerData.options)].map(mode => renderRadio({
+      name: goal.name,
+      value: mode,
+      checked: (storageData.settings[goal.name] || window.trackerDefaults[goal.name]) === mode
+    })).join('')}
       </div>
       `;
     settingsDiv.appendChild(optionsDiv);
