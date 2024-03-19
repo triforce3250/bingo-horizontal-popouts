@@ -106,26 +106,25 @@
   })
 
   document.querySelector('#popout-rows-button').addEventListener('click', () => {
-    row_strs = []
+    const rowStrs = [];
     for (let i = 1; i <= 2; i++) {
       try {
-        const row_str = decodeURIComponent(document.querySelector(`#row${i}-input`).value).split('#')[1]
-        if (row_str != undefined) {
-          row_strs.push(`${i}:` + row_str)
-        }
+        const input = decodeURIComponent(document.querySelector(`#row${i}-input`).value);
+        const [row_id, items] = parseRowString(input);
+        rowStrs.push(`${i}:` + row_id + "=" +items.join(';;;'));
       } catch (err) {
-        console.log(`Error/empty in Popout url of row ${i}`)
+        console.log(`Error/empty in Popout url of row ${i}`);
       }
     }
-    if (row_strs.length > 0) {
+    if (rowStrs.length > 0) {
       let popout_url = './rows.html'
       if (document.querySelector('#mirror').checked) {
         popout_url += `?mirror=true`;
       }
-      popout_url += '#' + row_strs.join('+')
+      popout_url += '#' + rowStrs.join('+')
       window.open(popout_url, '_blank', `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=${settings.popoutWidth}, height=${settings.popoutHeight}`);
     }
-  });
+  })
 </script>
 
 </body>
