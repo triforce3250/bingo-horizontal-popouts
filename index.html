@@ -43,11 +43,23 @@
 <script defer src="./lib/item-tracker/tracker-loader.js"></script>
 <script type="text/javascript">
 
-  function parse_row_string(row_str) {
-    const data = row_str.split('=')
-    const row_id = data[0];
+  function parseRowString(rowStr) {
+    if (!rowStr.includes('&goal=')) {
+      return parseLegacyRowString(rowStr);
+    }
+    const data = rowStr.split('?')[1]
+    const items = data.split('&goal=');
+    const rowId = items[0].replace('title=','')
+    const goals = items.slice(1).map(item => item.replaceAll('+', ' '));
+
+    return [rowId, goals]
+  }
+
+  function parseLegacyRowString(rowStr) {
+    const data = rowStr.split('#')[1].split('=');
+    const rowId = data[0];
     const items = data[1].split(';;;');
-    return [row_id, items]
+    return [rowId, items]
   }
 
   const maybeSettings = localStorage.getItem('layout-settings');
@@ -56,8 +68,8 @@
   document.querySelector('#get-rows-button').addEventListener('click', () => {
     for (let i = 1; i <= 2; i++) {
       try {
-        const input = decodeURIComponent(document.querySelector(`#row${i}-input`).value).split('#')[1]
-        const [row_id, items] = parse_row_string(input)
+        const input = decodeURIComponent(document.querySelector(`#row${i}-input`).value);
+        const [row_id, items] = parseRowString(input);
         const table = document.querySelector(`#row${i}`);
 
         const tableHTML = items.map(item => `<td>${item}</td>`).join('');
